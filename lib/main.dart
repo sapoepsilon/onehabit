@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:onehabit/Login.dart';
+import 'package:onehabit/Register.dart';
+
+import './themes/color.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,10 +16,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'One Habit',
-      theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
-      ),
-      home: const MyHomePage(title: 'Welcome page'),
+      theme: MyTheme.defaultTheme,
+      debugShowCheckedModeBanner: false,
+      //primarySwatch: Colors.Purple,,
+      home: const MyHomePage(title: 'One Habit'),
     );
   }
 }
@@ -30,21 +34,86 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
       body: Center(
+        //scrollDirection: Axis.horizontal,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Image.asset(
+              'assets/images/newLogo.png',
+              height: 300,
+              width: 400,
+            ),
+            // <-- SEE HERE
+            const Text(
               'One habit',
               style: TextStyle(fontFamily: 'outfit', fontSize: 55),
             ),
+            SizedBox(
+              width: 280,
+              child: const Text(
+                'Explore some of the tips to help boost your productivity throughout  the day ',
+                style: TextStyle(
+                  fontFamily: 'bevietnampro',
+                  fontSize: 25,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Login()),
+                );
+              },
+              style: ButtonStyle(
+                foregroundColor: MaterialStateProperty.all<Color>(Purple),
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                    EdgeInsets.only(left: 40, right: 40, top: 20, bottom: 20)),
+                shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  side: BorderSide(
+                    color: Purple,
+                    width: 3.0,
+                  ),
+                )),
+              ),
+              child: const Text("Login"),
+            ),
+            SizedBox(
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const Text(
+                      "Don't have an account yet?",
+                      style: TextStyle(
+                        fontFamily: 'bevietnampro',
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ]),
+              Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Register()),
+                    );
+                  },
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all<Color>(Purple),
+                  ),
+                  child: const Text("Register"),
+                ),
+              ])
+            ])),
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
