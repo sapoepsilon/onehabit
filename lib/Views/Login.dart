@@ -58,7 +58,7 @@ class _LoginState extends State<Login> {
             ),
             Visibility(
               child: errorAlert(),
-              visible: isButtonPressed,
+              visible: true,
             ),
           ],
         ),
@@ -107,28 +107,29 @@ class _LoginState extends State<Login> {
       );
 
   Future<void> navigateToDashboard() async {
-    String error = "login in";
-    await Authentication()
-        .signInWithEmail(emailController.text, passwordController.text);
-    if (error!.isEmpty) {
+    isButtonPressed = true;
+    print("Email to authenticate: " + emailController.text);
+    bool isSignedIn = (await Authentication()
+        .signInWithEmail(emailController.text, passwordController.text));
+    if (isSignedIn) {
+      isButtonPressed = false;
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const Dashboard()),
       );
     } else {
       signInAlertTitle = "Error signing in...";
-      errorMessage = error;
-      print("Error logging in... " + errorMessage);
+      print("Error signing in... " + errorMessage);
     }
   }
 
   SizedBox password() => SizedBox(
         width: width,
-        child: loginTextField("Enter your password", emailController),
+        child: loginTextField("Enter your password", passwordController),
       );
 
   SizedBox email() => SizedBox(
         width: width,
-        child: loginTextField("Enter your email", passwordController),
+        child: loginTextField("Enter your email", emailController),
       );
 }

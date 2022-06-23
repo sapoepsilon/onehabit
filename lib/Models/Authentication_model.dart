@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 class Authentication {
   User? user;
   String? authError;
+  late Future<Map<bool, String>> authenticationReturn;
 
   void checkLogin() {
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
@@ -14,7 +15,8 @@ class Authentication {
     });
   }
 
-  Future<String?> signInWithEmail(String email, String password) async {
+  Future<bool> signInWithEmail(String email, String password) async {
+    bool isSignedIn = true;
     try {
       final userAuthentication = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
@@ -22,9 +24,9 @@ class Authentication {
       print("logged in: " + user!.email.toString());
     } on FirebaseAuthException catch (error) {
       print("Error " + error.code);
-      authError = error.code;
+      isSignedIn = false;
     }
 
-    return authError;
+    return isSignedIn;
   }
 }
